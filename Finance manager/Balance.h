@@ -13,6 +13,7 @@ private:
 	std::string username;
 public:
 	Balance();
+	long long sum();
 	void writepass(std::string name, fs::path path);
 	bool Login();
 	bool Register();

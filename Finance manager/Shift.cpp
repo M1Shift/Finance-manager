@@ -35,7 +35,7 @@ int shift::chtonum(const char& elem)
 {
 	return elem - 48;
 }
-long shift::randomize(const long& start, const long& end)
+int shift::randomize(const int& start, const int& end)
 {
 	return 1 + start + rand() % end - start;
 }

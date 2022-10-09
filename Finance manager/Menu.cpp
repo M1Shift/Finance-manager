@@ -109,23 +109,25 @@
 
 
 	//конструктор
-	FinanceMenu::FinanceMenu(const std::vector<Finance>& finances) {
+	FinanceMenu::FinanceMenu(const std::vector<Finance>& finances, const long long& sum) {
 		this->finances = finances;
+		this->sum = sum;
 	}
 	//конструктор
-	void FinanceMenu::generate(const std::vector<Finance>& options)
+	void FinanceMenu::generate(const std::vector<Finance>& options,const long long& sum)
 	{
 		this->finances = options;
+		this->sum = sum;
 	}
 	//рамка
 	void FinanceMenu::drawFrame() {
 		size_t width = 87;
-		size_t height = 30;
+		size_t height = 29;
 		for (short y = 3; y < height; y++)
 		{
 			for (short x = 25; x < width; x++)
 			{
-				if (x == 25 || x == width - 1 || y == 3 || y == height - 1) {
+				if (x == 25 || x == width - 1 || y == 0 || y == height - 1) {
 					SetCursorPosition(x, y);
 					SetColor(ConsoleColor::WHITE, BLUE_FADE);
 					cout << ' ';
@@ -138,8 +140,8 @@
 	void FinanceMenu::drawTypes()
 	{
 		size_t width = 87;
-		size_t height = 4;
-		for (short y = 1; y < height; y++)
+		size_t height = 5;
+		for (short y = 2; y < height; y++)
 		{
 			for (short x = 25; x < width; x++)
 			{
@@ -152,26 +154,26 @@
 			}
 		}
 		SetColor(WHITE, BLACK);
-		SetCursorPosition(28, 2);
+		SetCursorPosition(28, 3);
 		std::cout << "Amount";
-		SetCursorPosition(40, 2);
+		SetCursorPosition(40, 3);
 		std::cout << "Category";
-		SetCursorPosition(60, 2);
+		SetCursorPosition(60, 3);
 		std::cout << "About";
-		SetCursorPosition(78, 2);
+		SetCursorPosition(78, 3);
 		std::cout << "Time";
 	}
 	//теперішня сторінка
 	void FinanceMenu::drawPageFrame()
 	{
 		size_t width = 87;
-		size_t height = 28;
-		for (short y = 25; y < height; y++)
+		size_t height = 31;
+		for (short y = 28; y < height; y++)
 		{
 			for (short x = 25; x < width; x++)
 			{
 				SetColor(WHITE, BLACK);
-				if (x == 25 or x == width - 1 or y == 1 or y == height - 1) {
+				if (x == 25 or x == width - 1 or y == 26 or y == height - 1) {
 					SetCursorPosition(x, y);
 					SetColor(ConsoleColor::WHITE, BLUE_FADE);
 					cout << ' ';
@@ -179,42 +181,42 @@
 			}
 		}
 		SetColor(WHITE, BLACK);
-		SetCursorPosition(38, 28);
+		SetCursorPosition(38,29);
 		std::cout << "<<";
-		SetCursorPosition(71, 28);
+		SetCursorPosition(71, 29);
 		std::cout << ">>";
-		SetCursorPosition(47, 28);
+		SetCursorPosition(47, 29);
 		std::cout << "Current page: " << activePage + 1 << '/' << finances.size() / 22 + 1;
 	}
 	//кнопки навігації
 	void FinanceMenu::drawInstructions()
 	{
-		SetCursorPosition(5, 1);
+		SetCursorPosition(5, 2);
 		std::cout << "Main menu options";
 		for (int i{}; i < 4; i++)
 		{
 			SetColor(GREEN, BLACK);
-			SetCursorPosition(5, 3 + i * 2);
+			SetCursorPosition(5, 4 + i * 2);
 			shift::printUCC(keys[i]);
 			SetColor(WHITE, BLACK);
 			std::cout << "  ";
 			std::cout << keynums[i];
 		}
 		SetColor(GREEN, BLACK);
-		SetCursorPosition(5, 11);
+		SetCursorPosition(5, 12);
 		std::cout << "TAB ";
 		SetColor(WHITE, BLACK);
 		std::cout << " Switch sort";
 		SetColor(GREEN, BLACK);
-		SetCursorPosition(5, 13);
+		SetCursorPosition(5, 14);
 		std::cout << "ESC ";
 		SetColor(WHITE, BLACK);
 		std::cout << " Return";
-		SetCursorPosition(95, 1);
+		SetCursorPosition(95, 2);
 		std::cout << "Functional options";
 		for (int i{}; i < 7; i++)
 		{
-			SetCursorPosition(95, 3 + i * 2);
+			SetCursorPosition(95, 4 + i * 2);
 			SetColor(GREEN, BLACK);
 			std::cout << "F" << i + 1 << "  ";
 			SetColor(WHITE, BLACK);
@@ -227,8 +229,9 @@
 		drawFrame();
 		drawTypes();
 		drawInstructions();
+		drawsum();
 		short startX = 26;
-		short startY = 4;
+		short startY = 5;
 		for (size_t i = 23 * activePage; i < (finances.size() - activePage * 23 > 23 ? 23 + activePage * 23 : activePage * 23 + finances.size() % 23); i++)
 		{
 			SetCursorPosition(startX + 1, startY + (short)i % 23);
@@ -258,6 +261,28 @@
 			cout << finances[i].getDtime();
 		}
 		drawPageFrame();
+	}
+	//малює суму
+	void FinanceMenu::drawsum()
+	{
+		for (short y = 0; y < 3; y++)
+		{
+			for (short x = 25; x < 87; x++)
+			{
+				SetColor(WHITE, BLACK);
+				if (x == 25 or x == 86 or y == 0 or y == 2) {
+					SetCursorPosition(x, y);
+					SetColor(ConsoleColor::WHITE, BLUE_FADE);
+					cout << ' ';
+				}
+			}
+		}
+		SetColor(WHITE, BLACK);
+		SetCursorPosition(44-(shift::getdigitcount(sum))/2,1);
+		std::cout << "Your current balance: ";
+		SetColor(sum >= 0 ? GREEN : RED, BLACK);
+		std::cout << sum;
+		SetColor(WHITE, BLACK);
 	}
 	//повертає вибраний варіант
 	long long FinanceMenu::getSelectedOption()
@@ -296,7 +321,17 @@
 			activePage = finances.size() / 23;
 		}
 	}
-
+	//повертає активну сторінку
+	long long FinanceMenu::getActivePage()
+	{
+		return activePage;
+	}
+	//сума
+	long long FinanceMenu::getsum()
+	{
+		return this->sum;
+	}
+	
 //повертає нажату клавішу
 WCHAR keymenu()
 {

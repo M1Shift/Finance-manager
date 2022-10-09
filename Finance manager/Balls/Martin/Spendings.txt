@@ -1,7 +1,7 @@
-1000
+5000
 Transfer
-s
-1665144774
+TestTransfer
+1665247090
 17000
 tech
 mining rig

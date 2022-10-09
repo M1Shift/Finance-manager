@@ -34,18 +34,22 @@ public:
 };
 class FinanceMenu {
 protected:
+	long long sum;
 	long long activeOption;
 	long long activePage;
 	std::vector<Finance> finances;
 public:
-	FinanceMenu(const std::vector<Finance>& finances);
-	void generate(const std::vector<Finance>& options);
+	FinanceMenu(const std::vector<Finance>& finances,const long long&sum);
+	void generate(const std::vector<Finance>& options,const long long& sum);
 	void drawFrame();
 	void drawTypes();
 	void drawPageFrame();
 	void drawInstructions();
 	void drawOptions();
+	void drawsum();
 	long long getSelectedOption();
+	long long getActivePage();
+	long long getsum();
 	void down();
 	void up();
 	void right();

@@ -24,7 +24,7 @@ namespace shift
 	std::string toupper(const std::string& str);
 		long long findnums(const std::string& mes);
 		int chtonum(const char& elem);
-	long randomize(const long& start, const long& end);
+		int randomize(const int& start, const int& end);
 	template<typename t>
 	std::vector<t> subvector(const std::vector<t>& arr, size_t from, size_t to);
 	template<typename t>

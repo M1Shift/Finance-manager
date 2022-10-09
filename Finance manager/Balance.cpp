@@ -72,7 +72,7 @@ bool Balance::Register()
 	for (int i{}; i < 2; i++)
 	{
 		drawnameframe(75, 11, 35, 8, GRAY);
-		std::cout << (i % 2 == 0 ? "Enter" : "Confirm") << "password: ";
+		std::cout << (i % 2 == 0 ? "Enter" : "Confirm") << " password: ";
 		std::getline(std::cin, password[i]);
 		system("cls");
 	}
@@ -130,6 +130,16 @@ std::string Balance::categorymenu()
 	}
 	system("cls");
 	return copy[num];
+}
+//теперішня сума
+long long Balance::sum()
+{
+	long long sum = 0;
+	for (auto &i : finances)
+	{
+		sum += i.getnum() * (i.gettype() ? 1: -1);
+	}
+	return sum;
 }
 //добавити фінанс
 void Balance::addfinance(const Finance& finance)
@@ -234,11 +244,13 @@ void Balance::transfer()
 	drawnameframe(60, 3, 0, 0, YELLOW_FADE);
 	std::cout << "Enter amount: ";
 	std::cin >> num;
+	std::cin.ignore(99999, '\n');
 	std::vector<std::string>users;
 	for (const auto& i : fs::directory_iterator(balpath))
 	{
 		users.push_back(i.path().filename().string());
 	}
+	system("cls");
 	std::string to = users[mainmenu(users, "Select receiver")];
 	std::ofstream out(balpath.string() + to + "/Incomes.txt", std::ios::app);
 	Finance temp(num, "Transfer", username, time(0), true);
@@ -292,7 +304,7 @@ void Balance::loadbal()
 	if (!categories.empty())
 		categories = shift::delcopyvec(categories);
 }
-//запустити рахунок
+//стартове меню
 size_t Balance::start()
 {
 	while (true)
@@ -320,6 +332,7 @@ size_t Balance::start()
 		}	
 	}
 }
+//запустити рахунок
 void Balance::run()
 {
 	bool exit = false;
@@ -332,7 +345,7 @@ void Balance::run()
 		}
 		if (!finances.empty())
 			sorter.sort(finances);
-		FinanceMenu menu(finances);
+		FinanceMenu menu(finances,sum());
 		
 		while (true)
 		{
@@ -364,7 +377,7 @@ void Balance::run()
 				system("cls");
 				createfinance(true);
 				system("cls");
-				menu.generate(finances);
+				menu.generate(finances,sum());
 				break;
 			}
 			case VK_F2: // створити витрату
@@ -372,21 +385,22 @@ void Balance::run()
 				system("cls");
 				createfinance(false);
 				system("cls");
-				menu.generate(finances);
+				menu.generate(finances,sum());
 				break;
 			}
 			case VK_F3: // видалити фінанс
 			{
 				system("cls");
-				if (suretable("delete?"))delfinance(menu.getSelectedOption());
-				menu.generate(finances);
+				if (suretable("Delete?"))
+					delfinance(menu.getSelectedOption()+menu.getActivePage()*23);
+				menu.generate(finances,sum());
 				break;
 			}
 			case VK_F4: // змінити фінанс
 			{
 				system("cls");
 				editfinance(menu.getSelectedOption());
-				menu.generate(finances);
+				menu.generate(finances,sum());
 				break;
 			}
 			case VK_F5: // меню сортувань
@@ -395,7 +409,7 @@ void Balance::run()
 				sorter.sortmenu();
 				sorter.sort(finances);
 				system("cls");
-				menu.generate(finances);
+				menu.generate(finances,sum());
 				break;
 			}
 			case VK_F6: // написати звіт
@@ -417,7 +431,7 @@ void Balance::run()
 				sorter.ShiftDir();
 				if (!finances.empty())
 					sorter.sort(finances);
-				menu.generate(finances);
+				menu.generate(finances,sum());
 				break;
 			}
 			case ESC: // вихід
