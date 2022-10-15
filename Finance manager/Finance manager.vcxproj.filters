@@ -21,9 +21,6 @@
     <ClCompile Include="Sorter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Shift.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Finance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -40,6 +37,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FileCryptor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shift.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,13 +59,13 @@
     <ClInclude Include="Balance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shift.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sorter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Review.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shift.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

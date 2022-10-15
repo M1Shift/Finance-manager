@@ -2,7 +2,7 @@
 #pragma warning(disable : 4996)
 #include "Shift.h"
 
-const fs::path balpath = "D:\\Mein Progectos/Finance manager/Finance manager/Balls/";
+const fs::path balpath = fs::current_path().string() + '\\';
 class Finance {
 protected:
 	long long num;

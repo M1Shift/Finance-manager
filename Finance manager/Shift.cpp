@@ -1,4 +1,5 @@
 #include "Shift.h"
+//tolower string
 std::string shift::tolower(const std::string& str)
 {
 	std::string res;
@@ -8,6 +9,7 @@ std::string shift::tolower(const std::string& str)
 	}
 	return res;
 }
+//toupper string
 std::string shift::toupper(const std::string& str)
 {
 	std::string res;
@@ -17,6 +19,7 @@ std::string shift::toupper(const std::string& str)
 	}
 	return res;
 }
+//find numbers in string(no exceptions)
 long long shift::findnums(const std::string& mes)
 {
 	long long num = 0;
@@ -31,14 +34,12 @@ long long shift::findnums(const std::string& mes)
 	}
 	return count == 0 ? -1 : num;
 }
-int shift::chtonum(const char& elem)
-{
-	return elem - 48;
-}
+//random number
 int shift::randomize(const int& start, const int& end)
 {
 	return 1 + start + rand() % end - start;
 }
+//get subvector
 template<typename t>
 std::vector<t> shift::subvector(const std::vector<t>& arr, size_t from, size_t to)
 {
@@ -49,6 +50,7 @@ std::vector<t> shift::subvector(const std::vector<t>& arr, size_t from, size_t t
 	}
 	return res;
 }
+//compare vectors
 template<typename t>
 std::string shift::veccompare(const std::vector<t>& arr1, const std::vector<t>& arr2)
 {
@@ -70,12 +72,14 @@ std::string shift::veccompare(const std::vector<t>& arr1, const std::vector<t>& 
 		return sum > 0 ? "bigger" : sum == 0 ? "same" : "lower";
 	}
 }
+//get number digit count
 int shift::getdigitcount(long long num)
 {
 	int sum = 0;
 	for (; num; num /= 10)sum++;
 	return sum;
 }
+//delete copies in vector
 std::vector<std::string> shift::delcopyvec(std::vector<std::string> vec)
 {
 	std::vector<std::string> copy = vec;
@@ -90,6 +94,7 @@ std::vector<std::string> shift::delcopyvec(std::vector<std::string> vec)
 	}
 	return copy;
 }
+//time_t to string
 std::string shift::Datestr(time_t clock)
 {
 	auto dtime = std::chrono::system_clock::from_time_t(clock);
@@ -97,6 +102,7 @@ std::string shift::Datestr(time_t clock)
 	ss << format("{:%d.%m.%Y}", dtime);
 	return ss.str();
 }
+//print unicode charachters
 void shift::printUCC(wchar_t mes)
 {
 	bool setmodetype;
@@ -105,6 +111,7 @@ void shift::printUCC(wchar_t mes)
 	setmodetype = _setmode(_fileno(stdout), _O_TEXT);
 
 }
+//compare vector
 template<typename t>
 bool operator <(const std::vector<t>& arr1, const std::vector<t>& arr2)
 {
@@ -120,6 +127,7 @@ bool operator >(const std::vector<t>& arr1, const std::vector<t>& arr2)
 {
 	return shift::veccompare(arr1, arr2) == "bigger";
 }
+//print vector
 template<typename t>
 std::ostream& operator <<(std::ostream& out, const std::vector<t>& arr)
 {
@@ -128,5 +136,47 @@ std::ostream& operator <<(std::ostream& out, const std::vector<t>& arr)
 		out << i << ' ';
 	}
 	out << '\n';
+	return out;
+}
+//get current x position
+short wherex()
+{
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	if (!GetConsoleScreenBufferInfo(
+		GetStdHandle(STD_OUTPUT_HANDLE),
+		&csbi
+	))
+		return -1;
+	return csbi.dwCursorPosition.X;
+}
+//get console y position
+short wherey()
+{
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	if (!GetConsoleScreenBufferInfo(
+		GetStdHandle(STD_OUTPUT_HANDLE),
+		&csbi
+	))
+		return -1;
+	return csbi.dwCursorPosition.Y;
+}
+//get current console position
+COORD shift::currentpos()
+{
+	return { wherex(),wherey() };
+}
+//Scroll to up console
+void shift::ScrollUp(const int& interval)
+{
+	for (short i{ shift::currentpos().Y }; i >= 0; i--)
+	{
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { currentpos().X, i });
+		Sleep(interval);
+	}
+}
+//Print coord
+std::ostream& operator <<(std::ostream& out, const COORD& coord)
+{
+	out << coord.X << ',' << coord.Y;
 	return out;
 }

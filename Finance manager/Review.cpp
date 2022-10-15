@@ -100,6 +100,7 @@ void Review::show(const std::string& user)
 		SetCursorPosition(1, (short)i + 1);
 		std::cout << content[i];
 	}
+	shift::ScrollUp(30);
 	while (true)
 	{
 		switch (keymenu())
@@ -112,7 +113,7 @@ void Review::show(const std::string& user)
 			return;
 		}
 	}
-
+	
 }
 //меню звітів
 void Review::menu(std::vector<Finance>& finances, const std::string& user)

@@ -18,13 +18,14 @@
 #include <fcntl.h>
 namespace fs = std::filesystem;
 using namespace std::chrono;
+short wherex();
+short wherey();
 namespace shift
 {
 	std::string tolower(const std::string& str);
 	std::string toupper(const std::string& str);
-		long long findnums(const std::string& mes);
-		int chtonum(const char& elem);
-		int randomize(const int& start, const int& end);
+	long long findnums(const std::string& mes);
+	int randomize(const int& start, const int& end);
 	template<typename t>
 	std::vector<t> subvector(const std::vector<t>& arr, size_t from, size_t to);
 	template<typename t>
@@ -33,7 +34,10 @@ namespace shift
 	std::vector<std::string> delcopyvec(std::vector<std::string> vec);
 	std::string Datestr(time_t clock);
 	void printUCC(wchar_t mes);
+	COORD currentpos();
+	void ScrollUp(const int & interval);
 }
+std::ostream& operator << (std::ostream& out, const COORD& coord);
 template<typename t>
 std::ostream& operator <<(std::ostream& out, const std::vector<t>& arr);
 template<typename t>
